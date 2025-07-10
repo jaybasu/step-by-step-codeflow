@@ -2,41 +2,78 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+/* Material Design inspired pipeline interface design system. 
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 218 11% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 218 11% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 218 11% 12%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Material Design inspired primary - modern blue */
+    --primary: 220 91% 55%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 220 91% 45%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - soft grey */
+    --secondary: 220 13% 95%;
+    --secondary-foreground: 218 11% 12%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 220 13% 95%;
+    --muted-foreground: 220 9% 46%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 220 13% 95%;
+    --accent-foreground: 218 11% 12%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Status colors */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    --success-light: 142 76% 96%;
+    
+    --warning: 38 100% 50%;
+    --warning-foreground: 0 0% 100%;
+    --warning-light: 38 100% 96%;
+    
+    --error: 0 84% 60%;
+    --error-foreground: 0 0% 100%;
+    --error-light: 0 84% 96%;
+    
+    --pending: 220 9% 70%;
+    --pending-foreground: 0 0% 100%;
+    --pending-light: 220 9% 95%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --radius: 0.5rem;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 220 91% 55%;
+
+    /* Pipeline specific colors */
+    --active-step: 220 91% 55%;
+    --active-step-bg: 220 91% 98%;
+    
+    /* Material elevation shadows */
+    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.1), 0 2px 4px -2px hsl(0 0% 0% / 0.1);
+    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.1), 0 4px 6px -4px hsl(0 0% 0% / 0.1);
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(220 91% 65%));
+    --gradient-success: linear-gradient(135deg, hsl(var(--success)), hsl(142 76% 46%));
+    
+    /* Animations */
+    --transition-all: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-transform: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -101,5 +138,70 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* Pipeline specific animations and styles */
+  .pipeline-step-enter {
+    @apply transform transition-all duration-300 ease-out;
+  }
+  
+  .pipeline-step-active {
+    @apply animate-pulse ring-2 ring-primary/20;
+  }
+  
+  .progress-bar-animated {
+    @apply transition-all duration-1000 ease-out;
+  }
+  
+  .status-badge-success {
+    @apply bg-success-light text-success border-success/20;
+  }
+  
+  .status-badge-error {
+    @apply bg-error-light text-error border-error/20;
+  }
+  
+  .status-badge-warning {
+    @apply bg-warning-light text-warning border-warning/20;
+  }
+  
+  .status-badge-pending {
+    @apply bg-pending-light text-pending border-pending/20;
+  }
+  
+  /* Material Design elevation */
+  .elevation-1 {
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .elevation-2 {
+    box-shadow: var(--shadow-md);
+  }
+  
+  .elevation-3 {
+    box-shadow: var(--shadow-lg);
+  }
+  
+  /* Console logs styling */
+  .console-logs {
+    @apply font-mono text-xs leading-relaxed;
+  }
+  
+  .console-logs .log-info {
+    @apply text-foreground;
+  }
+  
+  .console-logs .log-success {
+    @apply text-success;
+  }
+  
+  .console-logs .log-warning {
+    @apply text-warning;
+  }
+  
+  .console-logs .log-error {
+    @apply text-error;
   }
 }
