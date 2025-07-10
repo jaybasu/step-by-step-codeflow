@@ -1,4 +1,4 @@
-import { Check, X, Loader2, Clock } from "lucide-react";
+import { Check, X, Loader2, Clock, FileText, Search, BarChart, Grid3X3, Code, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -21,6 +21,25 @@ interface VerticalStepperProps {
 }
 
 export function VerticalStepper({ steps, activeStepId, onStepClick, isCollapsed = false }: VerticalStepperProps) {
+  const getStepIcon = (stepId: string) => {
+    switch (stepId) {
+      case 'extraction':
+        return FileText;
+      case 'detection':
+        return Search;
+      case 'analysis':
+        return BarChart;
+      case 'chunking':
+        return Grid3X3;
+      case 'generation':
+        return Code;
+      case 'validation':
+        return Shield;
+      default:
+        return Clock;
+    }
+  };
+
   const getStatusIcon = (status: StepStatus['status']) => {
     switch (status) {
       case 'pending':
@@ -51,6 +70,31 @@ export function VerticalStepper({ steps, activeStepId, onStepClick, isCollapsed 
     }
   };
 
+  const getStepIconWithStatus = (step: StepStatus) => {
+    const StepIconComponent = getStepIcon(step.id);
+    
+    return (
+      <div className="relative">
+        <StepIconComponent className={cn("w-5 h-5", getStatusColor(step.status))} />
+        {/* Status indicator badge */}
+        <div className="absolute -bottom-1 -right-1">
+          {step.status === 'pending' && (
+            <div className="w-2 h-2 rounded-full bg-pending"></div>
+          )}
+          {step.status === 'in-progress' && (
+            <Loader2 className="w-2 h-2 text-primary animate-spin" />
+          )}
+          {step.status === 'success' && (
+            <div className="w-2 h-2 rounded-full bg-success"></div>
+          )}
+          {step.status === 'error' && (
+            <div className="w-2 h-2 rounded-full bg-error"></div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
   if (isCollapsed) {
     return (
       <TooltipProvider>
@@ -68,7 +112,7 @@ export function VerticalStepper({ steps, activeStepId, onStepClick, isCollapsed 
                     )}
                     onClick={() => onStepClick(step.id)}
                   >
-                    {getStatusIcon(step.status)}
+                    {getStepIconWithStatus(step)}
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent side="right">
