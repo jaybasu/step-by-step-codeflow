@@ -158,8 +158,8 @@ export function VerticalStepper({ steps, activeStepId, onStepClick, isCollapsed 
               onClick={() => onStepClick(step.id)}
             >
               <div className="flex items-center space-x-3 w-full">
-                {/* Status Icon */}
-                {getStatusIcon(step.status)}
+                {/* Step Icon with Status */}
+                {getStepIconWithStatus(step)}
                 
                 {/* Step Details */}
                 <div className="flex-1 min-w-0">
