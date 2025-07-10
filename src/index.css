@@ -17,50 +17,50 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 218 11% 12%;
 
-    /* Professional blue color palette from reference */
-    --primary: 200 100% 33%;
+    /* Accessible professional blue color palette */
+    --primary: 207 90% 35%;
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 200 100% 27%;
-    --primary-light: 200 100% 45%;
+    --primary-hover: 207 90% 30%;
+    --primary-light: 207 90% 45%;
 
-    /* Corporate secondary using palette */
-    --secondary: 200 15% 95%;
-    --secondary-foreground: 200 100% 6%;
-    --secondary-dark: 200 15% 90%;
+    /* Accessible secondary colors */
+    --secondary: 210 20% 94%;
+    --secondary-foreground: 207 90% 20%;
+    --secondary-dark: 210 20% 88%;
 
-    --muted: 200 15% 95%;
-    --muted-foreground: 200 25% 35%;
+    --muted: 210 20% 94%;
+    --muted-foreground: 215 25% 35%;
 
-    --accent: 200 100% 17%;
+    --accent: 207 90% 20%;
     --accent-foreground: 0 0% 100%;
 
-    /* Professional status colors coordinated with palette */
-    --success: 160 84% 39%;
+    /* WCAG AA compliant status colors */
+    --success: 142 69% 35%;
     --success-foreground: 0 0% 100%;
-    --success-light: 160 84% 95%;
+    --success-light: 142 69% 95%;
     
-    --warning: 25 95% 53%;
+    --warning: 35 84% 40%;
     --warning-foreground: 0 0% 100%;
-    --warning-light: 25 95% 95%;
+    --warning-light: 35 84% 95%;
     
-    --error: 0 72% 51%;
+    --error: 0 84% 45%;
     --error-foreground: 0 0% 100%;
-    --error-light: 0 72% 95%;
+    --error-light: 0 84% 95%;
     
-    --pending: 200 50% 60%;
+    --pending: 215 25% 45%;
     --pending-foreground: 0 0% 100%;
-    --pending-light: 200 50% 95%;
+    --pending-light: 215 25% 95%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 84% 45%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 200 15% 91%;
-    --input: 200 15% 91%;
-    --ring: 200 100% 33%;
+    --border: 210 20% 88%;
+    --input: 210 20% 88%;
+    --ring: 207 90% 35%;
 
     /* Pipeline specific colors */
-    --active-step: 200 100% 33%;
-    --active-step-bg: 200 100% 98%;
+    --active-step: 207 90% 35%;
+    --active-step-bg: 207 90% 98%;
     
     /* Clean shadows - no colors */
     --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
@@ -100,24 +100,38 @@ All colors MUST be HSL.
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    /* Accessible dark mode colors */
+    --primary: 207 90% 70%;
+    --primary-foreground: 207 90% 10%;
 
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
 
     --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted-foreground: 215 20.2% 75%;
 
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    /* Accessible dark mode status colors */
+    --success: 142 69% 65%;
+    --success-foreground: 142 69% 10%;
+    
+    --warning: 35 84% 70%;
+    --warning-foreground: 35 84% 15%;
+    
+    --error: 0 84% 70%;
+    --error-foreground: 0 84% 10%;
+    
+    --pending: 215 25% 75%;
+    --pending-foreground: 215 25% 15%;
+
+    --destructive: 0 84% 70%;
+    --destructive-foreground: 0 84% 10%;
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --ring: 207 90% 70%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
