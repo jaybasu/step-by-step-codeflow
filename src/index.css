@@ -142,7 +142,7 @@ All colors MUST be HSL.
 @layer components {
   /* Professional flat styling for corporate presentation */
   .pipeline-header-corporate {
-    @apply bg-primary text-primary-foreground;
+    @apply bg-primary text-primary-foreground !important;
     box-shadow: var(--shadow-md);
   }
   
