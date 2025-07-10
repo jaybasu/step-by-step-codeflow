@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Play, Pause, Square } from "lucide-react";
+import { Play, Pause, Square, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { VerticalStepper, StepStatus } from "./VerticalStepper";
 import { DetailPane, PipelineStepData } from "./DetailPane";
@@ -84,6 +84,7 @@ export function Pipeline() {
   const [stepData, setStepData] = useState<PipelineStepData[]>(INITIAL_STEP_DATA);
   const [currentStepIndex, setCurrentStepIndex] = useState(-1);
   const [expandedSteps, setExpandedSteps] = useState<Set<string>>(new Set());
+  const [isLeftPanelCollapsed, setIsLeftPanelCollapsed] = useState(false);
   const { toast } = useToast();
 
   // Simulate pipeline execution
@@ -293,13 +294,34 @@ export function Pipeline() {
       {/* Main Layout */}
       <div className="max-w-7xl mx-auto flex h-[calc(100vh-200px)]">
         {/* Left Column - Vertical Stepper */}
-        <div className="w-80 border-r bg-card p-6">
-          <h3 className="font-semibold mb-4 text-foreground">Pipeline Steps</h3>
-          <VerticalStepper 
-            steps={steps} 
-            activeStepId={currentStepIndex >= 0 ? stepData[currentStepIndex]?.id : undefined}
-            onStepClick={handleStepClick}
-          />
+        <div className={`border-r bg-card transition-all duration-300 ${isLeftPanelCollapsed ? 'w-16' : 'w-80'}`}>
+          <div className="p-6">
+            {/* Header with Toggle */}
+            <div className="flex items-center justify-between mb-4">
+              {!isLeftPanelCollapsed && (
+                <h3 className="font-semibold text-foreground">Pipeline Steps</h3>
+              )}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsLeftPanelCollapsed(!isLeftPanelCollapsed)}
+                className="h-8 w-8 p-0"
+              >
+                {isLeftPanelCollapsed ? (
+                  <ChevronRight className="h-4 w-4" />
+                ) : (
+                  <ChevronLeft className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
+            
+            <VerticalStepper 
+              steps={steps} 
+              activeStepId={currentStepIndex >= 0 ? stepData[currentStepIndex]?.id : undefined}
+              onStepClick={handleStepClick}
+              isCollapsed={isLeftPanelCollapsed}
+            />
+          </div>
         </div>
 
         {/* Right Column - Detail Pane */}
