@@ -83,7 +83,7 @@ export function Pipeline() {
   const [steps, setSteps] = useState<StepStatus[]>(PIPELINE_STEPS);
   const [stepData, setStepData] = useState<PipelineStepData[]>(INITIAL_STEP_DATA);
   const [currentStepIndex, setCurrentStepIndex] = useState(-1);
-  const [selectedStepId, setSelectedStepId] = useState<string>(PIPELINE_STEPS[0].id);
+  const [expandedSteps, setExpandedSteps] = useState<Set<string>>(new Set());
   const { toast } = useToast();
 
   // Simulate pipeline execution
@@ -144,11 +144,11 @@ export function Pipeline() {
     }
   }, [pipelineStatus, currentStepIndex, stepData, steps.length, toast]);
 
-  // Auto-select active step
+  // Auto-expand active step
   useEffect(() => {
     if (currentStepIndex >= 0 && currentStepIndex < stepData.length) {
       const activeStepId = stepData[currentStepIndex].id;
-      setSelectedStepId(activeStepId);
+      setExpandedSteps(prev => new Set([...prev, activeStepId]));
     }
   }, [currentStepIndex, stepData]);
 
@@ -210,7 +210,28 @@ export function Pipeline() {
   };
 
   const handleStepClick = (stepId: string) => {
-    setSelectedStepId(stepId);
+    // Toggle expansion when clicking on stepper
+    setExpandedSteps(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(stepId)) {
+        newSet.delete(stepId);
+      } else {
+        newSet.add(stepId);
+      }
+      return newSet;
+    });
+  };
+
+  const toggleStepExpansion = (stepId: string) => {
+    setExpandedSteps(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(stepId)) {
+        newSet.delete(stepId);
+      } else {
+        newSet.add(stepId);
+      }
+      return newSet;
+    });
   };
 
   const handleSavePayload = (stepId: string, payload: any) => {
@@ -222,8 +243,6 @@ export function Pipeline() {
       description: `Configuration for ${stepId} has been saved.`,
     });
   };
-
-  const selectedStep = stepData.find(step => step.id === selectedStepId);
 
   return (
     <div className="min-h-screen bg-background">
@@ -278,7 +297,7 @@ export function Pipeline() {
           <h3 className="font-semibold mb-4 text-foreground">Pipeline Steps</h3>
           <VerticalStepper 
             steps={steps} 
-            activeStepId={selectedStepId}
+            activeStepId={currentStepIndex >= 0 ? stepData[currentStepIndex]?.id : undefined}
             onStepClick={handleStepClick}
           />
         </div>
@@ -286,7 +305,10 @@ export function Pipeline() {
         {/* Right Column - Detail Pane */}
         <div className="flex-1 bg-background">
           <DetailPane 
-            step={selectedStep}
+            steps={stepData}
+            currentStepIndex={currentStepIndex}
+            expandedSteps={expandedSteps}
+            onToggleStepExpansion={toggleStepExpansion}
             onRunStep={handleRunStep}
             onRunFromHere={handleRunFromHere}
             onSavePayload={handleSavePayload}
