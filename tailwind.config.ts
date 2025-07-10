@@ -28,8 +28,7 @@ export default {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))',
 					hover: 'hsl(var(--primary-hover))',
-					light: 'hsl(var(--primary-light))',
-					glow: 'hsl(var(--primary-glow))'
+					light: 'hsl(var(--primary-light))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
@@ -46,8 +45,7 @@ export default {
 				},
 				accent: {
 					DEFAULT: 'hsl(var(--accent))',
-					foreground: 'hsl(var(--accent-foreground))',
-					light: 'hsl(var(--accent-light))'
+					foreground: 'hsl(var(--accent-foreground))'
 				},
 				popover: {
 					DEFAULT: 'hsl(var(--popover))',
@@ -60,26 +58,22 @@ export default {
 				success: {
 					DEFAULT: 'hsl(var(--success))',
 					foreground: 'hsl(var(--success-foreground))',
-					light: 'hsl(var(--success-light))',
-					glow: 'hsl(var(--success-glow))'
+					light: 'hsl(var(--success-light))'
 				},
 				warning: {
 					DEFAULT: 'hsl(var(--warning))',
 					foreground: 'hsl(var(--warning-foreground))',
-					light: 'hsl(var(--warning-light))',
-					glow: 'hsl(var(--warning-glow))'
+					light: 'hsl(var(--warning-light))'
 				},
 				error: {
 					DEFAULT: 'hsl(var(--error))',
 					foreground: 'hsl(var(--error-foreground))',
-					light: 'hsl(var(--error-light))',
-					glow: 'hsl(var(--error-glow))'
+					light: 'hsl(var(--error-light))'
 				},
 				pending: {
 					DEFAULT: 'hsl(var(--pending))',
 					foreground: 'hsl(var(--pending-foreground))',
-					light: 'hsl(var(--pending-light))',
-					glow: 'hsl(var(--pending-glow))'
+					light: 'hsl(var(--pending-light))'
 				},
 				'active-step': {
 					DEFAULT: 'hsl(var(--active-step))',

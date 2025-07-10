@@ -17,76 +17,55 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 218 11% 12%;
 
-    /* Professional gradient-ready primary palette */
-    --primary: 220 91% 55%;
+    /* Professional corporate color palette */
+    --primary: 214 84% 56%;
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 220 91% 45%;
-    --primary-light: 220 91% 65%;
-    --primary-glow: 220 91% 75%;
+    --primary-hover: 214 84% 46%;
+    --primary-light: 214 84% 66%;
 
-    /* Rich secondary palette */
-    --secondary: 220 13% 95%;
-    --secondary-foreground: 218 11% 12%;
-    --secondary-dark: 220 15% 85%;
+    /* Clean corporate secondary */
+    --secondary: 210 11% 96%;
+    --secondary-foreground: 215 25% 27%;
+    --secondary-dark: 210 11% 91%;
 
-    --muted: 220 13% 95%;
-    --muted-foreground: 220 9% 46%;
+    --muted: 210 11% 96%;
+    --muted-foreground: 215 16% 47%;
 
-    --accent: 260 65% 65%;
-    --accent-foreground: 0 0% 100%;
-    --accent-light: 260 65% 90%;
+    --accent: 210 11% 91%;
+    --accent-foreground: 215 25% 27%;
 
-    /* Professional status colors with variants */
-    --success: 142 76% 36%;
+    /* Professional status colors - flat */
+    --success: 160 84% 39%;
     --success-foreground: 0 0% 100%;
-    --success-light: 142 76% 96%;
-    --success-glow: 142 76% 50%;
+    --success-light: 160 84% 95%;
     
-    --warning: 35 91% 50%;
+    --warning: 25 95% 53%;
     --warning-foreground: 0 0% 100%;
-    --warning-light: 35 91% 96%;
-    --warning-glow: 35 91% 65%;
+    --warning-light: 25 95% 95%;
     
-    --error: 0 84% 60%;
+    --error: 0 72% 51%;
     --error-foreground: 0 0% 100%;
-    --error-light: 0 84% 96%;
-    --error-glow: 0 84% 75%;
+    --error-light: 0 72% 95%;
     
-    --pending: 220 50% 60%;
+    --pending: 215 16% 65%;
     --pending-foreground: 0 0% 100%;
-    --pending-light: 220 50% 95%;
-    --pending-glow: 220 50% 75%;
+    --pending-light: 215 16% 95%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 220 91% 55%;
+    --border: 210 20% 91%;
+    --input: 210 20% 91%;
+    --ring: 214 84% 56%;
 
     /* Pipeline specific colors */
-    --active-step: 220 91% 55%;
-    --active-step-bg: 220 91% 98%;
+    --active-step: 214 84% 56%;
+    --active-step-bg: 214 84% 98%;
     
-    /* Material elevation shadows */
+    /* Clean shadows - no colors */
     --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
     --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.1), 0 2px 4px -2px hsl(0 0% 0% / 0.1);
     --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.1), 0 4px 6px -4px hsl(0 0% 0% / 0.1);
-    
-    /* Professional gradients for executive presentation */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-light)));
-    --gradient-success: linear-gradient(135deg, hsl(var(--success)), hsl(var(--success-glow)));
-    --gradient-warning: linear-gradient(135deg, hsl(var(--warning)), hsl(var(--warning-glow)));
-    --gradient-error: linear-gradient(135deg, hsl(var(--error)), hsl(var(--error-glow)));
-    --gradient-pending: linear-gradient(135deg, hsl(var(--pending)), hsl(var(--pending-glow)));
-    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-light)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
-    
-    /* Enhanced shadows for depth */
-    --shadow-colored: 0 4px 14px 0 hsl(var(--primary) / 0.15);
-    --shadow-success: 0 4px 14px 0 hsl(var(--success) / 0.15);
-    --shadow-warning: 0 4px 14px 0 hsl(var(--warning) / 0.15);
-    --shadow-error: 0 4px 14px 0 hsl(var(--error) / 0.15);
     
     /* Animations */
     --transition-all: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -161,59 +140,39 @@ All colors MUST be HSL.
 }
 
 @layer components {
-  /* Professional pipeline styling for executive presentation */
-  .pipeline-header-gradient {
-    background: var(--gradient-hero);
-    box-shadow: var(--shadow-colored);
+  /* Professional flat styling for corporate presentation */
+  .pipeline-header-corporate {
+    @apply bg-primary text-primary-foreground;
+    box-shadow: var(--shadow-md);
   }
   
   .status-card-professional {
-    @apply border border-border/20 bg-gradient-to-br from-card to-card/80 shadow-sm hover:shadow-md transition-all duration-300;
+    @apply border border-border bg-card shadow-sm hover:shadow-md transition-all duration-300;
   }
   
   .status-badge-success {
-    @apply bg-gradient-to-r from-success to-success-glow text-success-foreground border-0 shadow-sm;
+    @apply bg-success text-success-foreground border-0;
   }
   
   .status-badge-error {
-    @apply bg-gradient-to-r from-error to-error-glow text-error-foreground border-0 shadow-sm;
+    @apply bg-error text-error-foreground border-0;
   }
   
   .status-badge-warning {
-    @apply bg-gradient-to-r from-warning to-warning-glow text-warning-foreground border-0 shadow-sm;
+    @apply bg-warning text-warning-foreground border-0;
   }
   
   .status-badge-pending {
-    @apply bg-gradient-to-r from-pending to-pending-glow text-pending-foreground border-0 shadow-sm;
+    @apply bg-pending text-pending-foreground border-0;
   }
   
   .status-badge-in-progress {
-    @apply bg-gradient-to-r from-primary to-primary-light text-primary-foreground border-0 shadow-sm animate-pulse;
+    @apply bg-primary text-primary-foreground border-0;
   }
 
-  /* Professional progress bars */
+  /* Professional flat progress bars */
   .progress-professional {
-    @apply bg-secondary/50 backdrop-blur-sm;
-  }
-  
-  .progress-success {
-    background: var(--gradient-success);
-    box-shadow: var(--shadow-success);
-  }
-  
-  .progress-error {
-    background: var(--gradient-error);
-    box-shadow: var(--shadow-error);
-  }
-  
-  .progress-warning {
-    background: var(--gradient-warning);
-    box-shadow: var(--shadow-warning);
-  }
-  
-  .progress-primary {
-    background: var(--gradient-primary);
-    box-shadow: var(--shadow-colored);
+    @apply bg-secondary;
   }
 
   /* Pipeline specific animations and styles */
@@ -222,7 +181,7 @@ All colors MUST be HSL.
   }
   
   .pipeline-step-active {
-    @apply ring-2 ring-primary/30 bg-gradient-to-br from-primary/5 to-accent/5;
+    @apply ring-2 ring-primary/20 bg-primary/5;
   }
   
   .progress-bar-animated {

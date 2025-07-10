@@ -80,8 +80,8 @@ export function StepPane({
     <Card className={cn(
       "overflow-hidden transition-all duration-200 status-card-professional",
       isActive && "pipeline-step-active",
-      step.status === 'error' && "border-error/30 shadow-error",
-      step.status === 'success' && "border-success/30 shadow-success"
+      step.status === 'error' && "border-error/50",
+      step.status === 'success' && "border-success/50"
     )}>
       {/* Header - Always Visible */}
       <div 
@@ -176,17 +176,17 @@ export function StepPane({
 
                 {/* Key Metrics */}
                 <div className="grid grid-cols-3 gap-4 text-sm">
-                  <div className="text-center p-3 bg-gradient-to-br from-secondary to-secondary-dark rounded-lg border border-border/20">
+                  <div className="text-center p-3 bg-secondary rounded-lg border border-border">
                     <div className="font-semibold text-foreground">
                       {step.filesProcessed || 0}{step.totalFiles ? `/${step.totalFiles}` : ''}
                     </div>
                     <div className="text-xs text-muted-foreground">Files</div>
                   </div>
-                  <div className="text-center p-3 bg-gradient-to-br from-warning-light to-warning/10 rounded-lg border border-warning/20">
+                  <div className="text-center p-3 bg-warning-light rounded-lg border border-warning/20">
                     <div className="font-semibold text-warning">{step.warnings}</div>
                     <div className="text-xs text-muted-foreground">Warnings</div>
                   </div>
-                  <div className="text-center p-3 bg-gradient-to-br from-error-light to-error/10 rounded-lg border border-error/20">
+                  <div className="text-center p-3 bg-error-light rounded-lg border border-error/20">
                     <div className="font-semibold text-error">{step.errors}</div>
                     <div className="text-xs text-muted-foreground">Errors</div>
                   </div>
