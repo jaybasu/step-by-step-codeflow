@@ -56,15 +56,15 @@ export function StepPane({
   };
 
   const getStatusBadge = () => {
-    const variants = {
-      'pending': 'outline',
-      'in-progress': 'default',
-      'success': 'default',
-      'error': 'destructive'
+    const statusClasses = {
+      'pending': 'status-badge-pending',
+      'in-progress': 'status-badge-in-progress',
+      'success': 'status-badge-success',
+      'error': 'status-badge-error'
     } as const;
     
     return (
-      <Badge variant={variants[step.status] || 'outline'} className="capitalize">
+      <Badge className={cn("capitalize font-medium", statusClasses[step.status] || 'status-badge-pending')}>
         {step.status.replace('-', ' ')}
       </Badge>
     );
@@ -78,10 +78,10 @@ export function StepPane({
 
   return (
     <Card className={cn(
-      "overflow-hidden transition-all duration-200",
-      isActive && "ring-2 ring-primary bg-primary/5",
-      step.status === 'error' && "border-error/20",
-      step.status === 'success' && "border-success/20"
+      "overflow-hidden transition-all duration-200 status-card-professional",
+      isActive && "pipeline-step-active",
+      step.status === 'error' && "border-error/30 shadow-error",
+      step.status === 'success' && "border-success/30 shadow-success"
     )}>
       {/* Header - Always Visible */}
       <div 
@@ -119,12 +119,12 @@ export function StepPane({
           <div className="flex items-center space-x-2">
             {/* Error/Warning Badges */}
             {step.errors > 0 && (
-              <Badge variant="destructive" className="text-xs">
+              <Badge className="text-xs status-badge-error">
                 {step.errors} errors
               </Badge>
             )}
             {step.warnings > 0 && (
-              <Badge variant="outline" className="text-xs text-warning border-warning">
+              <Badge className="text-xs status-badge-warning">
                 {step.warnings} warnings
               </Badge>
             )}
@@ -171,22 +171,22 @@ export function StepPane({
                       )}
                     </div>
                   </div>
-                  <Progress value={step.progress} className="h-2" />
+                  <Progress value={step.progress} className="h-2 progress-professional" />
                 </div>
 
                 {/* Key Metrics */}
                 <div className="grid grid-cols-3 gap-4 text-sm">
-                  <div className="text-center p-3 bg-muted/50 rounded">
+                  <div className="text-center p-3 bg-gradient-to-br from-secondary to-secondary-dark rounded-lg border border-border/20">
                     <div className="font-semibold text-foreground">
                       {step.filesProcessed || 0}{step.totalFiles ? `/${step.totalFiles}` : ''}
                     </div>
                     <div className="text-xs text-muted-foreground">Files</div>
                   </div>
-                  <div className="text-center p-3 bg-warning/10 rounded">
+                  <div className="text-center p-3 bg-gradient-to-br from-warning-light to-warning/10 rounded-lg border border-warning/20">
                     <div className="font-semibold text-warning">{step.warnings}</div>
                     <div className="text-xs text-muted-foreground">Warnings</div>
                   </div>
-                  <div className="text-center p-3 bg-error/10 rounded">
+                  <div className="text-center p-3 bg-gradient-to-br from-error-light to-error/10 rounded-lg border border-error/20">
                     <div className="font-semibold text-error">{step.errors}</div>
                     <div className="text-xs text-muted-foreground">Errors</div>
                   </div>

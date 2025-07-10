@@ -248,20 +248,22 @@ export function Pipeline() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="border-b bg-card">
+      <div className="border-b bg-card pipeline-header-gradient">
         <div className="max-w-7xl mx-auto p-6">
-          <div className="text-center space-y-2 mb-6">
-            <h1 className="text-3xl font-bold text-foreground">Code Conversion Pipeline</h1>
-            <p className="text-muted-foreground">Monitor and control the automated code conversion process</p>
+          <div className="text-center space-y-3 mb-6">
+            <h1 className="text-4xl font-bold text-white drop-shadow-sm">Code Conversion Pipeline</h1>
+            <p className="text-white/90 text-lg">Monitor and control the automated code conversion process</p>
           </div>
 
           {/* Top Toolbar */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
             {/* Control Buttons */}
             <div className="flex items-center space-x-3">
               <Button 
                 onClick={handleStartAll}
                 disabled={pipelineStatus === 'running'}
+                className="bg-white/20 hover:bg-white/30 text-white border-white/30 backdrop-blur-sm shadow-lg"
+                size="lg"
               >
                 <Play className="w-4 h-4 mr-2" />
                 Start All
@@ -270,6 +272,7 @@ export function Pipeline() {
                 variant="outline"
                 onClick={handlePause}
                 disabled={pipelineStatus !== 'running'}
+                className="bg-white/10 hover:bg-white/20 text-white border-white/30 backdrop-blur-sm"
               >
                 <Pause className="w-4 h-4 mr-2" />
                 Pause
@@ -278,14 +281,17 @@ export function Pipeline() {
                 variant="outline"
                 onClick={handleStop}
                 disabled={pipelineStatus === 'idle'}
+                className="bg-white/10 hover:bg-white/20 text-white border-white/30 backdrop-blur-sm"
               >
                 <Square className="w-4 h-4 mr-2" />
                 Stop
               </Button>
             </div>
             
-            <div className="text-sm text-muted-foreground">
-              Status: <span className="font-medium capitalize">{pipelineStatus}</span>
+            <div className="bg-white/20 px-4 py-2 rounded-lg backdrop-blur-sm border border-white/20">
+              <span className="text-white/90 text-sm font-medium">
+                Status: <span className="text-white font-semibold capitalize">{pipelineStatus}</span>
+              </span>
             </div>
           </div>
         </div>
