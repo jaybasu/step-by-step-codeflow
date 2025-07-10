@@ -17,24 +17,24 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 218 11% 12%;
 
-    /* Professional corporate color palette */
-    --primary: 214 84% 56%;
+    /* Professional blue color palette from reference */
+    --primary: 200 100% 33%;
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 214 84% 46%;
-    --primary-light: 214 84% 66%;
+    --primary-hover: 200 100% 27%;
+    --primary-light: 200 100% 45%;
 
-    /* Clean corporate secondary */
-    --secondary: 210 11% 96%;
-    --secondary-foreground: 215 25% 27%;
-    --secondary-dark: 210 11% 91%;
+    /* Corporate secondary using palette */
+    --secondary: 200 15% 95%;
+    --secondary-foreground: 200 100% 6%;
+    --secondary-dark: 200 15% 90%;
 
-    --muted: 210 11% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 200 15% 95%;
+    --muted-foreground: 200 25% 35%;
 
-    --accent: 210 11% 91%;
-    --accent-foreground: 215 25% 27%;
+    --accent: 200 100% 17%;
+    --accent-foreground: 0 0% 100%;
 
-    /* Professional status colors - flat */
+    /* Professional status colors coordinated with palette */
     --success: 160 84% 39%;
     --success-foreground: 0 0% 100%;
     --success-light: 160 84% 95%;
@@ -47,20 +47,20 @@ All colors MUST be HSL.
     --error-foreground: 0 0% 100%;
     --error-light: 0 72% 95%;
     
-    --pending: 215 16% 65%;
+    --pending: 200 50% 60%;
     --pending-foreground: 0 0% 100%;
-    --pending-light: 215 16% 95%;
+    --pending-light: 200 50% 95%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 20% 91%;
-    --input: 210 20% 91%;
-    --ring: 214 84% 56%;
+    --border: 200 15% 91%;
+    --input: 200 15% 91%;
+    --ring: 200 100% 33%;
 
     /* Pipeline specific colors */
-    --active-step: 214 84% 56%;
-    --active-step-bg: 214 84% 98%;
+    --active-step: 200 100% 33%;
+    --active-step-bg: 200 100% 98%;
     
     /* Clean shadows - no colors */
     --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
