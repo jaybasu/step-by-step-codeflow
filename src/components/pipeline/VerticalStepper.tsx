@@ -1,0 +1,111 @@
+import { Check, X, Loader2, Clock } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+
+export interface StepStatus {
+  id: string;
+  name: string;
+  status: 'pending' | 'in-progress' | 'success' | 'error';
+  progress?: number;
+  warnings?: number;
+  errors?: number;
+}
+
+interface VerticalStepperProps {
+  steps: StepStatus[];
+  activeStepId?: string;
+  onStepClick: (stepId: string) => void;
+}
+
+export function VerticalStepper({ steps, activeStepId, onStepClick }: VerticalStepperProps) {
+  const getStatusIcon = (status: StepStatus['status']) => {
+    switch (status) {
+      case 'pending':
+        return <Clock className="w-4 h-4 text-pending" />;
+      case 'in-progress':
+        return <Loader2 className="w-4 h-4 text-primary animate-spin" />;
+      case 'success':
+        return (
+          <div className="w-5 h-5 rounded-full bg-success flex items-center justify-center">
+            <Check className="w-3 h-3 text-success-foreground" />
+          </div>
+        );
+      case 'error':
+        return (
+          <div className="w-5 h-5 rounded-full bg-error flex items-center justify-center">
+            <X className="w-3 h-3 text-error-foreground" />
+          </div>
+        );
+    }
+  };
+
+  const getStatusColor = (status: StepStatus['status']) => {
+    switch (status) {
+      case 'pending': return 'text-pending';
+      case 'in-progress': return 'text-primary';
+      case 'success': return 'text-success';
+      case 'error': return 'text-error';
+    }
+  };
+
+  return (
+    <div className="space-y-2">
+      {steps.map((step, index) => (
+        <div key={step.id} className="flex items-start">
+          {/* Step Content */}
+          <div className="flex-1">
+            <Button
+              variant="ghost"
+              className={cn(
+                "w-full justify-start h-auto p-3 text-left",
+                activeStepId === step.id && "bg-accent border border-primary/20"
+              )}
+              onClick={() => onStepClick(step.id)}
+            >
+              <div className="flex items-center space-x-3 w-full">
+                {/* Status Icon */}
+                {getStatusIcon(step.status)}
+                
+                {/* Step Details */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between">
+                    <h4 className={cn("font-medium truncate", getStatusColor(step.status))}>
+                      {step.name}
+                    </h4>
+                    {step.progress !== undefined && (
+                      <span className="text-xs text-muted-foreground ml-2">
+                        {step.progress}%
+                      </span>
+                    )}
+                  </div>
+                  
+                  {/* Badges */}
+                  <div className="flex items-center space-x-1 mt-1">
+                    {step.errors && step.errors > 0 && (
+                      <Badge variant="destructive" className="text-xs px-1 py-0">
+                        {step.errors} errors
+                      </Badge>
+                    )}
+                    {step.warnings && step.warnings > 0 && (
+                      <Badge variant="outline" className="text-xs px-1 py-0 text-warning border-warning">
+                        {step.warnings} warnings
+                      </Badge>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </Button>
+          </div>
+
+          {/* Connector Line */}
+          {index < steps.length - 1 && (
+            <div className="flex flex-col items-center ml-3 mt-6">
+              <div className="w-0.5 h-8 bg-border"></div>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}

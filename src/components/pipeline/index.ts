@@ -1,5 +1,6 @@
 export { Pipeline } from './Pipeline';
-export { PipelineStepper } from './PipelineStepper';
-export { PipelineStep } from './PipelineStep';
-export type { StepStatus } from './PipelineStepper';
-export type { PipelineStepData } from './PipelineStep';
+export { VerticalStepper } from './VerticalStepper';
+export { DetailPane } from './DetailPane';
+export { PayloadEditor } from './PayloadEditor';
+export type { StepStatus } from './VerticalStepper';
+export type { PipelineStepData } from './DetailPane';

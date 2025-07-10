@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Play, Pause, Square } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PipelineStepper, StepStatus } from "./PipelineStepper";
-import { PipelineStep, PipelineStepData } from "./PipelineStep";
+import { VerticalStepper, StepStatus } from "./VerticalStepper";
+import { DetailPane, PipelineStepData } from "./DetailPane";
 import { useToast } from "@/hooks/use-toast";
 
 const PIPELINE_STEPS: StepStatus[] = [
@@ -23,7 +23,8 @@ const INITIAL_STEP_DATA: PipelineStepData[] = [
     warnings: 0,
     errors: 0,
     logs: ["Waiting to start extraction process..."],
-    totalFiles: 125
+    totalFiles: 125,
+    payload: { inputPath: "/src", fileTypes: [".js", ".ts", ".tsx"] }
   },
   {
     id: "detection",
@@ -33,6 +34,7 @@ const INITIAL_STEP_DATA: PipelineStepData[] = [
     warnings: 0,
     errors: 0,
     logs: ["Waiting for extraction to complete..."],
+    payload: { patterns: ["async/await", "promise"], frameworks: ["react", "vue"] }
   },
   {
     id: "analysis",
@@ -42,6 +44,7 @@ const INITIAL_STEP_DATA: PipelineStepData[] = [
     warnings: 0,
     errors: 0,
     logs: ["Analysis pending..."],
+    payload: { depth: "deep", includeComments: true }
   },
   {
     id: "chunking",
@@ -51,6 +54,7 @@ const INITIAL_STEP_DATA: PipelineStepData[] = [
     warnings: 0,
     errors: 0,
     logs: ["Chunking pending..."],
+    payload: { chunkSize: 1000, overlap: 200 }
   },
   {
     id: "generation",
@@ -60,6 +64,7 @@ const INITIAL_STEP_DATA: PipelineStepData[] = [
     warnings: 0,
     errors: 0,
     logs: ["Generation pending..."],
+    payload: { targetLanguage: "typescript", preserveComments: true }
   },
   {
     id: "validation",
@@ -69,6 +74,7 @@ const INITIAL_STEP_DATA: PipelineStepData[] = [
     warnings: 0,
     errors: 0,
     logs: ["Validation pending..."],
+    payload: { strictMode: true, linting: true }
   },
 ];
 
@@ -77,7 +83,7 @@ export function Pipeline() {
   const [steps, setSteps] = useState<StepStatus[]>(PIPELINE_STEPS);
   const [stepData, setStepData] = useState<PipelineStepData[]>(INITIAL_STEP_DATA);
   const [currentStepIndex, setCurrentStepIndex] = useState(-1);
-  const [expandedSteps, setExpandedSteps] = useState<Set<string>>(new Set());
+  const [selectedStepId, setSelectedStepId] = useState<string>(PIPELINE_STEPS[0].id);
   const { toast } = useToast();
 
   // Simulate pipeline execution
@@ -138,11 +144,11 @@ export function Pipeline() {
     }
   }, [pipelineStatus, currentStepIndex, stepData, steps.length, toast]);
 
-  // Auto-expand active step
+  // Auto-select active step
   useEffect(() => {
     if (currentStepIndex >= 0 && currentStepIndex < stepData.length) {
       const activeStepId = stepData[currentStepIndex].id;
-      setExpandedSteps(prev => new Set([...prev, activeStepId]));
+      setSelectedStepId(activeStepId);
     }
   }, [currentStepIndex, stepData]);
 
@@ -203,79 +209,88 @@ export function Pipeline() {
     }
   };
 
-  const toggleStepExpansion = (stepId: string) => {
-    setExpandedSteps(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(stepId)) {
-        newSet.delete(stepId);
-      } else {
-        newSet.add(stepId);
-      }
-      return newSet;
+  const handleStepClick = (stepId: string) => {
+    setSelectedStepId(stepId);
+  };
+
+  const handleSavePayload = (stepId: string, payload: any) => {
+    setStepData(prev => prev.map(step => 
+      step.id === stepId ? { ...step, payload } : step
+    ));
+    toast({
+      title: "Payload Updated",
+      description: `Configuration for ${stepId} has been saved.`,
     });
   };
 
+  const selectedStep = stepData.find(step => step.id === selectedStepId);
+
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-6xl mx-auto p-6 space-y-6">
-        {/* Header */}
-        <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold text-foreground">Code Conversion Pipeline</h1>
-          <p className="text-muted-foreground">Monitor and control the automated code conversion process</p>
-        </div>
+      {/* Header */}
+      <div className="border-b bg-card">
+        <div className="max-w-7xl mx-auto p-6">
+          <div className="text-center space-y-2 mb-6">
+            <h1 className="text-3xl font-bold text-foreground">Code Conversion Pipeline</h1>
+            <p className="text-muted-foreground">Monitor and control the automated code conversion process</p>
+          </div>
 
-        {/* Top Toolbar */}
-        <div className="bg-card rounded-lg p-4 shadow-sm border space-y-4">
-          {/* Control Buttons */}
-          <div className="flex items-center space-x-3">
-            <Button 
-              onClick={handleStartAll}
-              disabled={pipelineStatus === 'running'}
-              className="bg-gradient-to-r from-primary to-primary-hover"
-            >
-              <Play className="w-4 h-4 mr-2" />
-              Start All
-            </Button>
-            <Button 
-              variant="outline"
-              onClick={handlePause}
-              disabled={pipelineStatus !== 'running'}
-            >
-              <Pause className="w-4 h-4 mr-2" />
-              Pause
-            </Button>
-            <Button 
-              variant="outline"
-              onClick={handleStop}
-              disabled={pipelineStatus === 'idle'}
-            >
-              <Square className="w-4 h-4 mr-2" />
-              Stop
-            </Button>
-            
-            <div className="flex-1" />
+          {/* Top Toolbar */}
+          <div className="flex items-center justify-between">
+            {/* Control Buttons */}
+            <div className="flex items-center space-x-3">
+              <Button 
+                onClick={handleStartAll}
+                disabled={pipelineStatus === 'running'}
+              >
+                <Play className="w-4 h-4 mr-2" />
+                Start All
+              </Button>
+              <Button 
+                variant="outline"
+                onClick={handlePause}
+                disabled={pipelineStatus !== 'running'}
+              >
+                <Pause className="w-4 h-4 mr-2" />
+                Pause
+              </Button>
+              <Button 
+                variant="outline"
+                onClick={handleStop}
+                disabled={pipelineStatus === 'idle'}
+              >
+                <Square className="w-4 h-4 mr-2" />
+                Stop
+              </Button>
+            </div>
             
             <div className="text-sm text-muted-foreground">
               Status: <span className="font-medium capitalize">{pipelineStatus}</span>
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* Stepper */}
-          <PipelineStepper steps={steps} />
+      {/* Main Layout */}
+      <div className="max-w-7xl mx-auto flex h-[calc(100vh-200px)]">
+        {/* Left Column - Vertical Stepper */}
+        <div className="w-80 border-r bg-card p-6">
+          <h3 className="font-semibold mb-4 text-foreground">Pipeline Steps</h3>
+          <VerticalStepper 
+            steps={steps} 
+            activeStepId={selectedStepId}
+            onStepClick={handleStepClick}
+          />
         </div>
 
-        {/* Pipeline Steps */}
-        <div className="space-y-4">
-          {stepData.map((step) => (
-            <PipelineStep
-              key={step.id}
-              step={step}
-              isExpanded={expandedSteps.has(step.id)}
-              onToggleExpand={() => toggleStepExpansion(step.id)}
-              onRunStep={() => handleRunStep(step.id)}
-              onRunFromHere={() => handleRunFromHere(step.id)}
-            />
-          ))}
+        {/* Right Column - Detail Pane */}
+        <div className="flex-1 bg-background">
+          <DetailPane 
+            step={selectedStep}
+            onRunStep={handleRunStep}
+            onRunFromHere={handleRunFromHere}
+            onSavePayload={handleSavePayload}
+          />
         </div>
       </div>
     </div>
