@@ -134,7 +134,7 @@ export function VerticalStepper({ steps, activeStepId, onStepClick, isCollapsed 
               
               {/* Connector Line for collapsed view */}
               {index < steps.length - 1 && (
-                <div className="w-0.5 h-6 bg-border mt-2"></div>
+                <div className="w-0.5 h-4 bg-border my-1"></div>
               )}
             </div>
           ))}
@@ -194,8 +194,8 @@ export function VerticalStepper({ steps, activeStepId, onStepClick, isCollapsed 
 
           {/* Connector Line */}
           {index < steps.length - 1 && (
-            <div className="flex flex-col items-center ml-3 mt-6">
-              <div className="w-0.5 h-8 bg-border"></div>
+            <div className="flex items-center justify-center w-6 ml-2">
+              <div className="w-0.5 h-12 bg-border"></div>
             </div>
           )}
         </div>
