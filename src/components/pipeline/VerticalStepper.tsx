@@ -131,11 +131,6 @@ export function VerticalStepper({ steps, activeStepId, onStepClick, isCollapsed 
                   </div>
                 </TooltipContent>
               </Tooltip>
-              
-              {/* Connector Line for collapsed view */}
-              {index < steps.length - 1 && (
-                <div className="w-0.5 h-4 bg-border my-1"></div>
-              )}
             </div>
           ))}
         </div>
@@ -191,13 +186,6 @@ export function VerticalStepper({ steps, activeStepId, onStepClick, isCollapsed 
               </div>
             </Button>
           </div>
-
-          {/* Connector Line */}
-          {index < steps.length - 1 && (
-            <div className="flex items-center justify-center w-6 ml-2">
-              <div className="w-0.5 h-12 bg-border"></div>
-            </div>
-          )}
         </div>
       ))}
     </div>
