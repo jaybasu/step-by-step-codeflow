@@ -79,6 +79,7 @@ const INITIAL_STEP_DATA: PipelineStepData[] = [
 ];
 
 export function Pipeline() {
+  console.log("Pipeline component initializing...");
   const [pipelineStatus, setPipelineStatus] = useState<'idle' | 'running' | 'paused'>('idle');
   const [steps, setSteps] = useState<StepStatus[]>(PIPELINE_STEPS);
   const [stepData, setStepData] = useState<PipelineStepData[]>(INITIAL_STEP_DATA);
