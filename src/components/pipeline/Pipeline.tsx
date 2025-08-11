@@ -276,19 +276,23 @@ export function Pipeline() {
   };
 
   const handleSaveSettings = (updatedSteps: PipelineStepData[]) => {
+    // Update step data with new configuration
     setStepData(updatedSteps);
-    // Update the basic steps array too
-    setSteps(updatedSteps.map(step => ({
+    
+    // Update the steps array used by the vertical stepper
+    const updatedBasicSteps = updatedSteps.map(step => ({
       id: step.id,
       name: step.name,
       status: step.status,
       progress: step.progress,
       warnings: step.warnings,
       errors: step.errors
-    })));
+    }));
+    setSteps(updatedBasicSteps);
+    
     toast({
       title: "Settings Updated",
-      description: "Pipeline configuration has been updated successfully.",
+      description: "Pipeline configuration and step names have been updated in the left panel.",
     });
   };
 

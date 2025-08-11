@@ -30,12 +30,16 @@ export function SettingsDialog({ steps, onSaveSettings }: SettingsDialogProps) {
   const handleOpenChange = (open: boolean) => {
     setIsOpen(open);
     if (open) {
-      // Initialize editor with current steps configuration
+      // Initialize editor with comprehensive steps configuration
       const stepsConfig = steps.map(step => ({
         id: step.id,
         name: step.name,
-        payload: step.payload,
-        substeps: step.substeps || []
+        payload: step.payload || {},
+        substeps: step.substeps ? step.substeps.map(substep => ({
+          id: substep.id,
+          name: substep.name,
+          payload: substep.payload || {}
+        })) : []
       }));
       setEditorValue(JSON.stringify(stepsConfig, null, 2));
       setValidationError(null);
@@ -56,6 +60,14 @@ export function SettingsDialog({ steps, onSaveSettings }: SettingsDialogProps) {
         if (!step.id || !step.name) {
           throw new Error("Each step must have an 'id' and 'name' property");
         }
+        // Validate substeps if they exist
+        if (step.substeps && Array.isArray(step.substeps)) {
+          for (const substep of step.substeps) {
+            if (!substep.id || !substep.name) {
+              throw new Error("Each substep must have an 'id' and 'name' property");
+            }
+          }
+        }
       }
 
       // Update the steps with new configuration while preserving runtime data
@@ -66,7 +78,16 @@ export function SettingsDialog({ steps, onSaveSettings }: SettingsDialogProps) {
             ...existingStep,
             name: configStep.name,
             payload: configStep.payload || {},
-            substeps: configStep.substeps || []
+            substeps: configStep.substeps ? configStep.substeps.map((substep: any) => ({
+              id: substep.id,
+              name: substep.name,
+              status: 'pending' as const,
+              progress: 0,
+              warnings: 0,
+              errors: 0,
+              logs: [`Waiting for ${substep.name.toLowerCase()}...`],
+              payload: substep.payload || {}
+            })) : []
           };
         }
         return existingStep;
@@ -152,7 +173,9 @@ export function SettingsDialog({ steps, onSaveSettings }: SettingsDialogProps) {
               <li>Each step must have an "id" and "name" property</li>
               <li>Add "payload" object for step-specific configuration</li>
               <li>Add "substeps" array for nested sub-processes</li>
-              <li>Substeps follow the same structure as main steps</li>
+              <li>Substeps follow the same structure: id, name, and optional payload</li>
+              <li>Changes will update step names and configurations in the left panel</li>
+              <li>Runtime data (progress, status, logs) will be preserved</li>
             </ul>
           </div>
         </div>
