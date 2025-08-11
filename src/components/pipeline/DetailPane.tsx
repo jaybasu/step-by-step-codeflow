@@ -1,5 +1,6 @@
 import { StepPane } from "./StepPane";
 
+// Interface for pipeline step data
 export interface PipelineStepData {
   id: string;
   name: string;

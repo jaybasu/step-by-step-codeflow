@@ -3,11 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import type { Status } from "@/models";
 
+// Legacy interface for backward compatibility
 export interface StepStatus {
   id: string;
   name: string;
-  status: 'pending' | 'in-progress' | 'success' | 'error';
+  status: Status;
   progress?: number;
   warnings?: number;
   errors?: number;
