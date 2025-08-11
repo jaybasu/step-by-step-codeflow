@@ -300,7 +300,7 @@ export function Pipeline() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <div className="border-b pipeline-header-corporate">
-        <div className="max-w-7xl mx-auto p-6">
+        <div className="w-full p-6">
           <div className="text-center space-y-3 mb-6">
             <h1 className="text-4xl font-bold text-primary-foreground">Code Conversion Pipeline</h1>
             <p className="text-primary-foreground/90 text-lg">Monitor and control the automated code conversion process</p>
@@ -353,7 +353,7 @@ export function Pipeline() {
       </div>
 
       {/* Main Layout */}
-      <div className="max-w-7xl mx-auto flex h-[calc(100vh-200px)]">
+      <div className="w-full flex h-[calc(100vh-200px)]">
         {/* Left Column - Vertical Stepper */}
         <div className={`border-r bg-card transition-all duration-300 ${isLeftPanelCollapsed ? 'w-16' : 'w-80'}`}>
           <div className="p-6">
