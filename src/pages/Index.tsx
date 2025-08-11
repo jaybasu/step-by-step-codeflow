@@ -1,8 +1,8 @@
-import { Pipeline } from "@/components/pipeline/Pipeline";
+import { PipelineContainer } from "@/components/pipeline/PipelineContainer";
 
 const Index = () => {
   console.log("Index component loading...");
-  return <Pipeline />;
+  return <PipelineContainer />;
 };
 
 export default Index;

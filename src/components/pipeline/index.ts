@@ -1,4 +1,5 @@
 export { Pipeline } from './Pipeline';
+export { PipelineContainer } from './PipelineContainer';
 export { VerticalStepper } from './VerticalStepper';
 export { DetailPane } from './DetailPane';
 export { StepPane } from './StepPane';
