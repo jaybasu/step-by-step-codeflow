@@ -307,24 +307,25 @@ export function Pipeline() {
           </div>
 
           {/* Top Toolbar */}
-          <div className="flex items-center justify-between bg-primary-foreground/10 rounded-xl p-4 border border-primary-foreground/20">
+          <div className="pipeline-card-modern p-6">
             {/* Control Buttons */}
-            <div className="flex items-center space-x-3">
-              <Button 
-                onClick={handleStartAll}
-                disabled={pipelineStatus === 'running'}
-                className="bg-primary-foreground/20 hover:bg-primary-foreground/30 text-primary-foreground border-primary-foreground/30"
-                size="lg"
-                aria-label="Start all pipeline steps"
-              >
-                <Play className="w-4 h-4 mr-2" aria-hidden="true" />
-                Start All
-              </Button>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <Button 
+                  onClick={handleStartAll}
+                  disabled={pipelineStatus === 'running'}
+                  className="bg-gradient-to-r from-success to-success/80 hover:from-success/90 hover:to-success/70 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                  size="lg"
+                  aria-label="Start all pipeline steps"
+                >
+                  <Play className="w-5 h-5 mr-2" aria-hidden="true" />
+                  Start Pipeline
+                </Button>
               <Button 
                 variant="outline"
                 onClick={handlePause}
                 disabled={pipelineStatus !== 'running'}
-                className="bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground border-primary-foreground/30"
+                className="bg-gradient-to-r from-warning to-warning/80 hover:from-warning/90 hover:to-warning/70 text-white border-0 px-4 py-2 rounded-lg shadow-md"
                 aria-label="Pause pipeline execution"
               >
                 <Pause className="w-4 h-4 mr-2" aria-hidden="true" />
@@ -334,7 +335,7 @@ export function Pipeline() {
                 variant="outline"
                 onClick={handleStop}
                 disabled={pipelineStatus === 'idle'}
-                className="bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground border-primary-foreground/30"
+                className="bg-gradient-to-r from-error to-error/80 hover:from-error/90 hover:to-error/70 text-white border-0 px-4 py-2 rounded-lg shadow-md"
                 aria-label="Stop and reset pipeline"
               >
                 <Square className="w-4 h-4 mr-2" aria-hidden="true" />
@@ -346,11 +347,12 @@ export function Pipeline() {
               />
             </div>
             
-            <div className="bg-primary-foreground/20 px-4 py-2 rounded-lg border border-primary-foreground/20" role="status" aria-live="polite">
-              <span className="text-primary-foreground/90 text-sm font-medium">
-                Status: <span className="text-primary-foreground font-semibold capitalize">{pipelineStatus}</span>
+            <div className="metric-card bg-gradient-to-r from-primary/10 to-primary/5 px-6 py-3 rounded-lg border border-primary/20">
+              <span className="text-foreground/90 text-sm font-medium">
+                Status: <span className="text-primary font-bold capitalize">{pipelineStatus}</span>
               </span>
             </div>
+          </div>
           </div>
         </div>
       </div>
@@ -359,7 +361,7 @@ export function Pipeline() {
       <div className="w-full flex flex-col lg:flex-row h-[calc(100vh-200px)]" role="main">
         {/* Left Column - Vertical Stepper */}
         <aside 
-          className={`border-r lg:border-b-0 border-b bg-card transition-all duration-300 
+          className={`pipeline-card-modern border-r lg:border-b-0 border-b transition-all duration-300 
             ${isLeftPanelCollapsed 
               ? 'lg:w-16 w-full h-16 lg:h-auto' 
               : 'lg:w-80 w-full h-auto lg:h-auto max-h-48 lg:max-h-none'
