@@ -214,6 +214,23 @@ All colors MUST be HSL.
   .elevation-3 {
     box-shadow: var(--shadow-lg);
   }
+
+  /* Responsive pipeline layout */
+  .pipeline-mobile {
+    @apply flex-col;
+  }
+  
+  .pipeline-desktop {
+    @apply flex-row;
+  }
+  
+  .pipeline-sidebar-mobile {
+    @apply w-full h-auto max-h-48 overflow-y-auto;
+  }
+  
+  .pipeline-sidebar-desktop {
+    @apply w-80 h-auto;
+  }
   
   /* Console logs styling */
   .console-logs {

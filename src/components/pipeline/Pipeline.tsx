@@ -315,8 +315,9 @@ export function Pipeline() {
                 disabled={pipelineStatus === 'running'}
                 className="bg-primary-foreground/20 hover:bg-primary-foreground/30 text-primary-foreground border-primary-foreground/30"
                 size="lg"
+                aria-label="Start all pipeline steps"
               >
-                <Play className="w-4 h-4 mr-2" />
+                <Play className="w-4 h-4 mr-2" aria-hidden="true" />
                 Start All
               </Button>
               <Button 
@@ -324,8 +325,9 @@ export function Pipeline() {
                 onClick={handlePause}
                 disabled={pipelineStatus !== 'running'}
                 className="bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground border-primary-foreground/30"
+                aria-label="Pause pipeline execution"
               >
-                <Pause className="w-4 h-4 mr-2" />
+                <Pause className="w-4 h-4 mr-2" aria-hidden="true" />
                 Pause
               </Button>
               <Button 
@@ -333,8 +335,9 @@ export function Pipeline() {
                 onClick={handleStop}
                 disabled={pipelineStatus === 'idle'}
                 className="bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground border-primary-foreground/30"
+                aria-label="Stop and reset pipeline"
               >
-                <Square className="w-4 h-4 mr-2" />
+                <Square className="w-4 h-4 mr-2" aria-hidden="true" />
                 Stop
               </Button>
               <SettingsDialog 
@@ -343,7 +346,7 @@ export function Pipeline() {
               />
             </div>
             
-            <div className="bg-primary-foreground/20 px-4 py-2 rounded-lg border border-primary-foreground/20">
+            <div className="bg-primary-foreground/20 px-4 py-2 rounded-lg border border-primary-foreground/20" role="status" aria-live="polite">
               <span className="text-primary-foreground/90 text-sm font-medium">
                 Status: <span className="text-primary-foreground font-semibold capitalize">{pipelineStatus}</span>
               </span>
@@ -353,25 +356,40 @@ export function Pipeline() {
       </div>
 
       {/* Main Layout */}
-      <div className="w-full flex h-[calc(100vh-200px)]">
+      <div className="w-full flex flex-col lg:flex-row h-[calc(100vh-200px)]" role="main">
         {/* Left Column - Vertical Stepper */}
-        <div className={`border-r bg-card transition-all duration-300 ${isLeftPanelCollapsed ? 'w-16' : 'w-80'}`}>
+        <aside 
+          className={`border-r lg:border-b-0 border-b bg-card transition-all duration-300 
+            ${isLeftPanelCollapsed 
+              ? 'lg:w-16 w-full h-16 lg:h-auto' 
+              : 'lg:w-80 w-full h-auto lg:h-auto max-h-48 lg:max-h-none'
+            } overflow-y-auto lg:overflow-y-visible`}
+          aria-label="Pipeline steps navigation"
+        >
           <div className="p-6">
             {/* Header with Toggle */}
             <div className="flex items-center justify-between mb-4">
               {!isLeftPanelCollapsed && (
-                <h3 className="font-semibold text-foreground">Pipeline Steps</h3>
+                <h2 className="font-semibold text-foreground">Pipeline Steps</h2>
               )}
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsLeftPanelCollapsed(!isLeftPanelCollapsed)}
                 className="h-8 w-8 p-0"
+                aria-label={isLeftPanelCollapsed ? "Expand pipeline steps panel" : "Collapse pipeline steps panel"}
+                aria-expanded={!isLeftPanelCollapsed}
               >
                 {isLeftPanelCollapsed ? (
-                  <ChevronRight className="h-4 w-4" />
+                  <ChevronRight className="h-4 w-4 lg:block hidden" aria-hidden="true" />
                 ) : (
-                  <ChevronLeft className="h-4 w-4" />
+                  <ChevronLeft className="h-4 w-4 lg:block hidden" aria-hidden="true" />
+                )}
+                {/* Mobile icons */}
+                {isLeftPanelCollapsed ? (
+                  <ChevronRight className="h-4 w-4 lg:hidden block rotate-90" aria-hidden="true" />
+                ) : (
+                  <ChevronLeft className="h-4 w-4 lg:hidden block rotate-90" aria-hidden="true" />
                 )}
               </Button>
             </div>
@@ -383,10 +401,10 @@ export function Pipeline() {
               isCollapsed={isLeftPanelCollapsed}
             />
           </div>
-        </div>
+        </aside>
 
         {/* Right Column - Detail Pane */}
-        <div className="flex-1 bg-background">
+        <main className="flex-1 bg-background" role="region" aria-label="Pipeline step details">
           <DetailPane 
             steps={stepData}
             currentStepIndex={currentStepIndex}
@@ -396,7 +414,7 @@ export function Pipeline() {
             onRunFromHere={handleRunFromHere}
             onSavePayload={handleSavePayload}
           />
-        </div>
+        </main>
       </div>
     </div>
   );
