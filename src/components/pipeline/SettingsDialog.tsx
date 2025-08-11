@@ -125,7 +125,7 @@ export function SettingsDialog({ steps, onSaveSettings }: SettingsDialogProps) {
           Settings
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[80vh] flex flex-col">
+      <DialogContent className="max-w-6xl max-h-[85vh] flex flex-col">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Settings className="w-5 h-5" />
@@ -136,47 +136,93 @@ export function SettingsDialog({ steps, onSaveSettings }: SettingsDialogProps) {
           </DialogDescription>
         </DialogHeader>
         
-        <div className="flex-1 flex flex-col space-y-4 overflow-hidden">
-          {/* Validation Error */}
-          {validationError && (
-            <Badge variant="destructive" className="w-fit">
-              {validationError}
-            </Badge>
-          )}
-          
-          {/* JSON Editor */}
-          <div className="flex-1 border rounded-md overflow-hidden">
-            <Editor
-              height="100%"
-              defaultLanguage="json"
-              value={editorValue}
-              onChange={handleEditorChange}
-              options={{
-                minimap: { enabled: false },
-                fontSize: 14,
-                lineNumbers: "on",
-                roundedSelection: false,
-                scrollBeyondLastLine: false,
-                wordWrap: "on",
-                automaticLayout: true,
-                formatOnPaste: true,
-                formatOnType: true,
-              }}
-              theme="vs-dark"
-            />
+        <div className="flex-1 flex gap-6 overflow-hidden">
+          {/* Left Column - JSON Editor */}
+          <div className="flex-1 flex flex-col space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold">Configuration Editor</h3>
+              {validationError && (
+                <Badge variant="destructive" className="text-xs">
+                  {validationError}
+                </Badge>
+              )}
+            </div>
+            
+            <div className="flex-1 border rounded-md overflow-hidden">
+              <Editor
+                height="100%"
+                defaultLanguage="json"
+                value={editorValue}
+                onChange={handleEditorChange}
+                options={{
+                  minimap: { enabled: false },
+                  fontSize: 14,
+                  lineNumbers: "on",
+                  roundedSelection: false,
+                  scrollBeyondLastLine: false,
+                  wordWrap: "on",
+                  automaticLayout: true,
+                  formatOnPaste: true,
+                  formatOnType: true,
+                  tabSize: 2,
+                }}
+                theme="vs-dark"
+              />
+            </div>
           </div>
           
-          {/* Instructions */}
-          <div className="text-sm text-muted-foreground space-y-2">
-            <p><strong>Configuration Structure:</strong></p>
-            <ul className="list-disc list-inside space-y-1 text-xs">
-              <li>Each step must have an "id" and "name" property</li>
-              <li>Add "payload" object for step-specific configuration</li>
-              <li>Add "substeps" array for nested sub-processes</li>
-              <li>Substeps follow the same structure: id, name, and optional payload</li>
-              <li>Changes will update step names and configurations in the left panel</li>
-              <li>Runtime data (progress, status, logs) will be preserved</li>
-            </ul>
+          {/* Right Column - Instructions */}
+          <div className="w-80 flex flex-col space-y-4">
+            <h3 className="text-lg font-semibold">Instructions</h3>
+            
+            <div className="space-y-4 text-sm">
+              <div>
+                <h4 className="font-medium mb-2">Configuration Structure:</h4>
+                <ul className="list-disc list-inside space-y-1 text-xs text-muted-foreground">
+                  <li>Each step must have an "id" and "name" property</li>
+                  <li>Add "payload" object for step-specific configuration</li>
+                  <li>Add "substeps" array for nested sub-processes</li>
+                  <li>Substeps follow the same structure: id, name, and optional payload</li>
+                  <li>Changes will update step names and configurations in the left panel</li>
+                  <li>Runtime data (progress, status, logs) will be preserved</li>
+                </ul>
+              </div>
+              
+              <div>
+                <h4 className="font-medium mb-2">Example Structure:</h4>
+                <pre className="text-xs bg-muted p-3 rounded overflow-x-auto">
+{`[
+  {
+    "id": "extraction",
+    "name": "File Extraction",
+    "payload": {
+      "inputPath": "/src",
+      "fileTypes": [".js", ".ts"]
+    },
+    "substeps": [
+      {
+        "id": "scan",
+        "name": "Directory Scan",
+        "payload": {
+          "recursive": true
+        }
+      }
+    ]
+  }
+]`}
+                </pre>
+              </div>
+              
+              <div>
+                <h4 className="font-medium mb-2">Tips:</h4>
+                <ul className="list-disc list-inside space-y-1 text-xs text-muted-foreground">
+                  <li>Use descriptive names for better clarity</li>
+                  <li>Payloads can contain any configuration data</li>
+                  <li>Substeps are optional but useful for complex processes</li>
+                  <li>Validate JSON syntax before saving</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
         
