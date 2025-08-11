@@ -13,6 +13,7 @@ export interface PipelineStepData {
   eta?: string;
   logs: string[];
   payload?: any;
+  substeps?: PipelineStepData[];
 }
 
 interface DetailPaneProps {

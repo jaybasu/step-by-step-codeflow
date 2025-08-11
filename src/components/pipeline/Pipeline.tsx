@@ -3,6 +3,7 @@ import { Play, Pause, Square, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { VerticalStepper, StepStatus } from "./VerticalStepper";
 import { DetailPane, PipelineStepData } from "./DetailPane";
+import { SettingsDialog } from "./SettingsDialog";
 import { useToast } from "@/hooks/use-toast";
 
 const PIPELINE_STEPS: StepStatus[] = [
@@ -24,7 +25,19 @@ const INITIAL_STEP_DATA: PipelineStepData[] = [
     errors: 0,
     logs: ["Waiting to start extraction process..."],
     totalFiles: 125,
-    payload: { inputPath: "/src", fileTypes: [".js", ".ts", ".tsx"] }
+    payload: { inputPath: "/src", fileTypes: [".js", ".ts", ".tsx"] },
+    substeps: [
+      {
+        id: "extraction-scan",
+        name: "File Scanning",
+        status: "pending",
+        progress: 0,
+        warnings: 0,
+        errors: 0,
+        logs: ["Scanning for files..."],
+        payload: { recursive: true, excludePatterns: ["node_modules", ".git"] }
+      }
+    ]
   },
   {
     id: "detection",
@@ -34,7 +47,19 @@ const INITIAL_STEP_DATA: PipelineStepData[] = [
     warnings: 0,
     errors: 0,
     logs: ["Waiting for extraction to complete..."],
-    payload: { patterns: ["async/await", "promise"], frameworks: ["react", "vue"] }
+    payload: { patterns: ["async/await", "promise"], frameworks: ["react", "vue"] },
+    substeps: [
+      {
+        id: "pattern-analysis",
+        name: "Pattern Analysis",
+        status: "pending",
+        progress: 0,
+        warnings: 0,
+        errors: 0,
+        logs: ["Analyzing code patterns..."],
+        payload: { deepScan: true, confidence: 0.8 }
+      }
+    ]
   },
   {
     id: "analysis",
@@ -44,7 +69,8 @@ const INITIAL_STEP_DATA: PipelineStepData[] = [
     warnings: 0,
     errors: 0,
     logs: ["Analysis pending..."],
-    payload: { depth: "deep", includeComments: true }
+    payload: { depth: "deep", includeComments: true },
+    substeps: []
   },
   {
     id: "chunking",
@@ -54,7 +80,8 @@ const INITIAL_STEP_DATA: PipelineStepData[] = [
     warnings: 0,
     errors: 0,
     logs: ["Chunking pending..."],
-    payload: { chunkSize: 1000, overlap: 200 }
+    payload: { chunkSize: 1000, overlap: 200 },
+    substeps: []
   },
   {
     id: "generation",
@@ -64,7 +91,8 @@ const INITIAL_STEP_DATA: PipelineStepData[] = [
     warnings: 0,
     errors: 0,
     logs: ["Generation pending..."],
-    payload: { targetLanguage: "typescript", preserveComments: true }
+    payload: { targetLanguage: "typescript", preserveComments: true },
+    substeps: []
   },
   {
     id: "validation",
@@ -74,7 +102,8 @@ const INITIAL_STEP_DATA: PipelineStepData[] = [
     warnings: 0,
     errors: 0,
     logs: ["Validation pending..."],
-    payload: { strictMode: true, linting: true }
+    payload: { strictMode: true, linting: true },
+    substeps: []
   },
 ];
 
@@ -246,6 +275,23 @@ export function Pipeline() {
     });
   };
 
+  const handleSaveSettings = (updatedSteps: PipelineStepData[]) => {
+    setStepData(updatedSteps);
+    // Update the basic steps array too
+    setSteps(updatedSteps.map(step => ({
+      id: step.id,
+      name: step.name,
+      status: step.status,
+      progress: step.progress,
+      warnings: step.warnings,
+      errors: step.errors
+    })));
+    toast({
+      title: "Settings Updated",
+      description: "Pipeline configuration has been updated successfully.",
+    });
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -287,6 +333,10 @@ export function Pipeline() {
                 <Square className="w-4 h-4 mr-2" />
                 Stop
               </Button>
+              <SettingsDialog 
+                steps={stepData}
+                onSaveSettings={handleSaveSettings}
+              />
             </div>
             
             <div className="bg-primary-foreground/20 px-4 py-2 rounded-lg border border-primary-foreground/20">
