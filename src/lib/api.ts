@@ -52,7 +52,7 @@ class ApiClient {
         config.headers['X-Request-ID'] = this.generateRequestId();
         
         // Log outgoing requests in development
-        if (process.env.NODE_ENV === 'development') {
+        if (import.meta.env.DEV) {
           console.log(`🚀 API Request: ${config.method?.toUpperCase()} ${config.url}`, {
             headers: config.headers,
             data: config.data,
@@ -71,7 +71,7 @@ class ApiClient {
     this.client.interceptors.response.use(
       (response: AxiosResponse) => {
         // Log successful responses in development
-        if (process.env.NODE_ENV === 'development') {
+        if (import.meta.env.DEV) {
           console.log(`✅ API Response: ${response.status} ${response.config.url}`, {
             data: response.data,
             headers: response.headers,
@@ -209,7 +209,7 @@ class ApiClient {
 
 // Default API client instance
 const apiConfig: ApiConfig = {
-  baseURL: process.env.VITE_API_BASE_URL || 'http://localhost:3001/api',
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api',
   timeout: 30000,
   retryAttempts: 3,
 };

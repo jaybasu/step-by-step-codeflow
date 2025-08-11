@@ -449,7 +449,7 @@ export const usePipelineStore = create<PipelineStore>()(
     ),
     {
       name: 'pipeline-store',
-      enabled: process.env.NODE_ENV === 'development',
+      enabled: import.meta.env.DEV,
     }
   )
 );
