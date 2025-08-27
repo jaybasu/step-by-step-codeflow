@@ -5,5 +5,6 @@ export { DetailPane } from './DetailPane';
 export { StepPane } from './StepPane';
 export { PayloadEditor } from './PayloadEditor';
 export { SettingsDialog } from './SettingsDialog';
+export { LogsModal } from './LogsModal';
 export type { StepStatus } from './VerticalStepper';
 export type { PipelineStepData } from './DetailPane';

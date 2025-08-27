@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, ChevronRight, Play, AlertTriangle, XCircle, CheckCircle, Clock, Loader2, Search, Edit } from "lucide-react";
+import { ChevronDown, ChevronRight, Play, AlertTriangle, XCircle, CheckCircle, Clock, Loader2, Search, Edit, Maximize2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { PayloadEditor } from "./PayloadEditor";
+import { LogsModal } from "./LogsModal";
 import { cn } from "@/lib/utils";
 import { PipelineStepData } from "./DetailPane";
 
@@ -217,6 +218,16 @@ export function StepPane({
                       <SelectItem value="info">Info</SelectItem>
                     </SelectContent>
                   </Select>
+                  <LogsModal
+                    stepName={step.name}
+                    logs={step.logs}
+                    trigger={
+                      <Button variant="outline" size="sm">
+                        <Maximize2 className="w-4 h-4 mr-2" />
+                        Expand
+                      </Button>
+                    }
+                  />
                 </div>
 
                 {/* Logs Console */}
