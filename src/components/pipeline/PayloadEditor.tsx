@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Save, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Editor from '@monaco-editor/react';
+import { usePipelineStore } from "@/stores/pipeline.store";
 
 interface PayloadEditorProps {
   stepId: string;
@@ -16,12 +17,31 @@ export function PayloadEditor({ stepId, payload, onSave, className }: PayloadEdi
   const [editValue, setEditValue] = useState(JSON.stringify(payload || {}, null, 2));
   const [validationError, setValidationError] = useState<string | null>(null);
   const [isUpdating, setIsUpdating] = useState(false);
+  
+  // Subscribe to store updates for this specific step
+  const storePayload = usePipelineStore((state) => 
+    state.stepData.find(step => step.id === stepId)?.payload
+  );
+
+  // Update editor when store payload changes (from Settings dialog)
+  useEffect(() => {
+    if (storePayload && JSON.stringify(storePayload) !== JSON.stringify(payload)) {
+      setEditValue(JSON.stringify(storePayload, null, 2));
+      setValidationError(null);
+    }
+  }, [storePayload, payload]);
 
   const handleUpdate = async () => {
     try {
       setIsUpdating(true);
       const parsedPayload = JSON.parse(editValue);
       setValidationError(null);
+      
+      // Use store method for proper sync
+      const updateStepPayload = usePipelineStore.getState().updateStepPayload;
+      await updateStepPayload(stepId, parsedPayload, 'individual');
+      
+      // Also call the original callback for backward compatibility
       onSave(stepId, parsedPayload);
       
       // Simulate update delay for better UX

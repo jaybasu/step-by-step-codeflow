@@ -35,6 +35,9 @@ export interface PipelineState {
   
   // Performance & Caching
   optimisticUpdates: Map<string, Partial<PipelineStepData>>;
+  
+  // Payload sync tracking
+  payloadUpdateSource: 'settings' | 'individual' | null;
 }
 
 export interface PipelineActions {
@@ -54,7 +57,8 @@ export interface PipelineActions {
   
   // Step Management
   updateStepData: (stepId: string, updates: Partial<PipelineStepData>) => void;
-  updateStepPayload: (stepId: string, payload: any) => Promise<void>;
+  updateStepPayload: (stepId: string, payload: any, source?: 'settings' | 'individual') => Promise<void>;
+  updateAllStepPayloads: (stepUpdates: Array<{id: string, payload: any}>) => void;
   setCurrentStepIndex: (index: number) => void;
   
   // UI Actions
@@ -96,6 +100,7 @@ const initialState: PipelineState = {
   isConnected: false,
   lastUpdate: null,
   optimisticUpdates: new Map(),
+  payloadUpdateSource: null,
 };
 
 export const usePipelineStore = create<PipelineStore>()(
@@ -283,22 +288,41 @@ export const usePipelineStore = create<PipelineStore>()(
             });
           },
 
-          updateStepPayload: async (stepId: string, payload: any) => {
+          updateStepPayload: async (stepId: string, payload: any, source = 'individual') => {
             const { currentConfiguration } = get();
-            if (!currentConfiguration) return;
-
+            
             try {
-              await pipelineService.updateStepPayload(currentConfiguration.id, stepId, payload);
-              
+              // Optimistically update the UI first
               set((state) => {
                 const stepIndex = state.stepData.findIndex(step => step.id === stepId);
                 if (stepIndex !== -1) {
                   state.stepData[stepIndex].payload = payload;
                 }
+                state.payloadUpdateSource = source;
+                state.lastUpdate = new Date();
               });
+
+              // If there's a backend configuration, save it
+              if (currentConfiguration) {
+                await pipelineService.updateStepPayload(currentConfiguration.id, stepId, payload);
+              }
             } catch (error) {
               console.error('Failed to update step payload:', error);
+              // Revert on error - would need original payload for this
             }
+          },
+
+          updateAllStepPayloads: (stepUpdates: Array<{id: string, payload: any}>) => {
+            set((state) => {
+              stepUpdates.forEach(({ id, payload }) => {
+                const stepIndex = state.stepData.findIndex(step => step.id === id);
+                if (stepIndex !== -1) {
+                  state.stepData[stepIndex].payload = payload;
+                }
+              });
+              state.payloadUpdateSource = 'settings';
+              state.lastUpdate = new Date();
+            });
           },
 
           setCurrentStepIndex: (index: number) => {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Settings, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +12,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { Editor } from "@monaco-editor/react";
+import { usePipelineStore } from "@/stores/pipeline.store";
 
 import { PipelineStepData } from "./DetailPane";
 
@@ -26,12 +27,37 @@ export function SettingsDialog({ steps, onSaveSettings }: SettingsDialogProps) {
   const [validationError, setValidationError] = useState<string | null>(null);
   const [isUpdating, setIsUpdating] = useState(false);
   const { toast } = useToast();
+  
+  // Subscribe to store updates to keep Settings dialog in sync
+  const storeSteps = usePipelineStore((state) => state.stepData);
+  
+  // Update editor when store steps change (from individual PayloadEditor)
+  useEffect(() => {
+    if (isOpen && storeSteps.length > 0) {
+      const stepsConfig = storeSteps.map(step => ({
+        id: step.id,
+        name: step.name,
+        payload: step.payload || {},
+        substeps: step.substeps ? step.substeps.map(substep => ({
+          id: substep.id,
+          name: substep.name,
+          payload: substep.payload || {}
+        })) : []
+      }));
+      const newValue = JSON.stringify(stepsConfig, null, 2);
+      if (newValue !== editorValue) {
+        setEditorValue(newValue);
+        setValidationError(null);
+      }
+    }
+  }, [storeSteps, isOpen]);
 
   const handleOpenChange = (open: boolean) => {
     setIsOpen(open);
     if (open) {
-      // Initialize editor with comprehensive steps configuration
-      const stepsConfig = steps.map(step => ({
+      // Initialize editor with current steps configuration
+      const currentSteps = storeSteps.length > 0 ? storeSteps : steps;
+      const stepsConfig = currentSteps.map(step => ({
         id: step.id,
         name: step.name,
         payload: step.payload || {},
@@ -93,6 +119,17 @@ export function SettingsDialog({ steps, onSaveSettings }: SettingsDialogProps) {
         return existingStep;
       });
 
+      // Extract payload updates for store sync
+      const payloadUpdates = parsedConfig.map((step: any) => ({
+        id: step.id,
+        payload: step.payload || {}
+      }));
+
+      // Update store with all payload changes
+      const updateAllStepPayloads = usePipelineStore.getState().updateAllStepPayloads;
+      updateAllStepPayloads(payloadUpdates);
+
+      // Call original callback for backward compatibility
       onSaveSettings(updatedSteps);
       setIsOpen(false);
       setValidationError(null);
