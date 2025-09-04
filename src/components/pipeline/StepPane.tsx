@@ -152,12 +152,12 @@ export function StepPane({
         <div className="border-t bg-card">
           <div className="p-4">
             <Tabs defaultValue="overview" className="w-full">
-              <TabsList className={`grid w-full ${step.chatConfig?.enabled ? 'grid-cols-4' : 'grid-cols-3'}`}>
-                <TabsTrigger value="overview">Overview</TabsTrigger>
-                <TabsTrigger value="logs">Logs</TabsTrigger>
-                <TabsTrigger value="payload">Payload</TabsTrigger>
+              <TabsList className="w-full justify-start">
+                <TabsTrigger value="overview" className="flex-1">Overview</TabsTrigger>
+                <TabsTrigger value="logs" className="flex-1">Logs</TabsTrigger>
+                <TabsTrigger value="payload" className="flex-1">Payload</TabsTrigger>
                 {step.chatConfig?.enabled && (
-                  <TabsTrigger value="chat">Chat</TabsTrigger>
+                  <TabsTrigger value="chat" className="flex-1">Chat</TabsTrigger>
                 )}
               </TabsList>
 
