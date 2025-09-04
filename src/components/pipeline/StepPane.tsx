@@ -200,7 +200,7 @@ export function StepPane({
 
               {/* Logs Tab */}
               <TabsContent value="logs" className="space-y-4 mt-4">
-                <div className="h-96 flex flex-col">
+                <div className="pipeline-tab-content flex flex-col">
                   {/* Log Controls */}
                   <div className="flex space-x-4 mb-4">
                     <div className="flex-1 relative">

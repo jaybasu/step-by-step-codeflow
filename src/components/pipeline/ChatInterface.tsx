@@ -82,7 +82,7 @@ export function ChatInterface({ stepId, chatConfig }: ChatInterfaceProps) {
   }
 
   return (
-    <div className="flex flex-col h-96 border rounded-lg bg-background">
+    <div className="pipeline-tab-content flex flex-col border rounded-lg bg-background">
       {/* Chat Header */}
       <div className="px-4 py-2 border-b bg-muted/30">
         <div className="flex items-center space-x-2">

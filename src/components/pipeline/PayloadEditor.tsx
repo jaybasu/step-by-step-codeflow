@@ -63,7 +63,8 @@ export function PayloadEditor({ stepId, payload, onSave, className }: PayloadEdi
   };
 
   return (
-    <Card className={`p-4 ${className}`}>
+    <div className={`pipeline-tab-content ${className}`}>
+      <Card className="h-full p-4 flex flex-col">
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <h4 className="font-medium">Payload Configuration</h4>
@@ -88,9 +89,9 @@ export function PayloadEditor({ stepId, payload, onSave, className }: PayloadEdi
           </Badge>
         )}
 
-        <div className="border rounded-lg overflow-hidden">
+        <div className="flex-1 border rounded-lg overflow-hidden">
           <Editor
-            height="280px"
+            height="100%"
             defaultLanguage="json"
             value={editValue}
             onChange={handleEditorChange}
@@ -112,5 +113,6 @@ export function PayloadEditor({ stepId, payload, onSave, className }: PayloadEdi
         </p>
       </div>
     </Card>
+    </div>
   );
 }
