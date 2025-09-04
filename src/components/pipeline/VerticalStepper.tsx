@@ -173,14 +173,14 @@ export function VerticalStepper({ steps, activeStepId, onStepClick, isCollapsed 
                   
                   {/* Badges */}
                   <div className="flex items-center space-x-1 mt-1">
-                    {step.errors && step.errors > 0 && (
+                    {step.errors !== undefined && step.errors > 0 && (
                       <Badge variant="destructive" className="text-xs px-1 py-0">
-                        {step.errors} errors
+                        {step.errors} error{step.errors !== 1 ? 's' : ''}
                       </Badge>
                     )}
-                    {step.warnings && step.warnings > 0 && (
+                    {step.warnings !== undefined && step.warnings > 0 && (
                       <Badge variant="outline" className="text-xs px-1 py-0 text-warning border-warning">
-                        {step.warnings} warnings
+                        {step.warnings} warning{step.warnings !== 1 ? 's' : ''}
                       </Badge>
                     )}
                   </div>
