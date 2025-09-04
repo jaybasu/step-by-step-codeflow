@@ -65,54 +65,54 @@ export function PayloadEditor({ stepId, payload, onSave, className }: PayloadEdi
   return (
     <div className={`pipeline-tab-content ${className}`}>
       <Card className="h-full p-4 flex flex-col">
-      <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h4 className="font-medium">Payload Configuration</h4>
-          <Button 
-            size="sm" 
-            onClick={handleUpdate} 
-            disabled={!!validationError || isUpdating}
-            className="status-badge-in-progress"
-          >
-            {isUpdating ? (
-              <RefreshCw className="w-4 h-4 mr-1 animate-spin" />
-            ) : (
-              <Save className="w-4 h-4 mr-1" />
-            )}
-            {isUpdating ? 'Updating...' : 'Update'}
-          </Button>
-        </div>
+        <div className="flex flex-col h-full space-y-3">
+          <div className="flex items-center justify-between">
+            <h4 className="font-medium">Payload Configuration</h4>
+            <Button 
+              size="sm" 
+              onClick={handleUpdate} 
+              disabled={!!validationError || isUpdating}
+              className="status-badge-in-progress"
+            >
+              {isUpdating ? (
+                <RefreshCw className="w-4 h-4 mr-1 animate-spin" />
+              ) : (
+                <Save className="w-4 h-4 mr-1" />
+              )}
+              {isUpdating ? 'Updating...' : 'Update'}
+            </Button>
+          </div>
 
-        {validationError && (
-          <Badge className="w-full justify-start status-badge-error">
-            Invalid JSON: {validationError}
-          </Badge>
-        )}
+          {validationError && (
+            <Badge className="w-full justify-start status-badge-error">
+              Invalid JSON: {validationError}
+            </Badge>
+          )}
 
-        <div className="flex-1 border rounded-lg overflow-hidden">
-          <Editor
-            height="100%"
-            defaultLanguage="json"
-            value={editValue}
-            onChange={handleEditorChange}
-            options={{
-              minimap: { enabled: false },
-              scrollBeyondLastLine: false,
-              lineNumbers: 'on',
-              theme: 'vs-light',
-              formatOnPaste: true,
-              formatOnType: true,
-              wordWrap: 'on',
-              automaticLayout: true,
-            }}
-          />
+          <div className="flex-1 border rounded-lg overflow-hidden">
+            <Editor
+              height="100%"
+              defaultLanguage="json"
+              value={editValue}
+              onChange={handleEditorChange}
+              options={{
+                minimap: { enabled: false },
+                scrollBeyondLastLine: false,
+                lineNumbers: 'on',
+                theme: 'vs-light',
+                formatOnPaste: true,
+                formatOnType: true,
+                wordWrap: 'on',
+                automaticLayout: true,
+              }}
+            />
+          </div>
+          
+          <p className="text-xs text-muted-foreground">
+            Edit the JSON payload above and click Update to apply changes to this pipeline step.
+          </p>
         </div>
-        
-        <p className="text-xs text-muted-foreground">
-          Edit the JSON payload above and click Update to apply changes to this pipeline step.
-        </p>
-      </div>
-    </Card>
+      </Card>
     </div>
   );
 }
