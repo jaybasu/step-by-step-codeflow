@@ -200,45 +200,47 @@ export function StepPane({
 
               {/* Logs Tab */}
               <TabsContent value="logs" className="space-y-4 mt-4">
-                {/* Log Controls */}
-                <div className="flex space-x-4">
-                  <div className="flex-1 relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                    <Input
-                      placeholder="Search logs..."
-                      value={logSearch}
-                      onChange={(e) => setLogSearch(e.target.value)}
-                      className="pl-10"
+                <div className="h-96 flex flex-col">
+                  {/* Log Controls */}
+                  <div className="flex space-x-4 mb-4">
+                    <div className="flex-1 relative">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                      <Input
+                        placeholder="Search logs..."
+                        value={logSearch}
+                        onChange={(e) => setLogSearch(e.target.value)}
+                        className="pl-10"
+                      />
+                    </div>
+                    <Select value={logLevel} onValueChange={setLogLevel}>
+                      <SelectTrigger className="w-32">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Levels</SelectItem>
+                        <SelectItem value="error">Errors</SelectItem>
+                        <SelectItem value="warning">Warnings</SelectItem>
+                        <SelectItem value="info">Info</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <LogsModal
+                      stepName={step.name}
+                      logs={step.logs}
+                      trigger={
+                        <Button variant="outline" size="sm">
+                          <Maximize2 className="w-4 h-4 mr-2" />
+                          Expand
+                        </Button>
+                      }
                     />
                   </div>
-                  <Select value={logLevel} onValueChange={setLogLevel}>
-                    <SelectTrigger className="w-32">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Levels</SelectItem>
-                      <SelectItem value="error">Errors</SelectItem>
-                      <SelectItem value="warning">Warnings</SelectItem>
-                      <SelectItem value="info">Info</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <LogsModal
-                    stepName={step.name}
-                    logs={step.logs}
-                    trigger={
-                      <Button variant="outline" size="sm">
-                        <Maximize2 className="w-4 h-4 mr-2" />
-                        Expand
-                      </Button>
-                    }
-                  />
-                </div>
 
-                {/* Logs Console */}
-                <div className="bg-muted/30 rounded-lg p-3 max-h-64 overflow-y-auto">
-                  <pre className="text-xs text-foreground whitespace-pre-wrap font-mono">
-                    {filteredLogs.length > 0 ? filteredLogs.join('\n') : 'No logs match your search criteria'}
-                  </pre>
+                  {/* Logs Console */}
+                  <div className="flex-1 bg-muted/30 rounded-lg p-3 overflow-y-auto">
+                    <pre className="text-xs text-foreground whitespace-pre-wrap font-mono">
+                      {filteredLogs.length > 0 ? filteredLogs.join('\n') : 'No logs match your search criteria'}
+                    </pre>
+                  </div>
                 </div>
               </TabsContent>
 
