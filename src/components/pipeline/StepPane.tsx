@@ -152,11 +152,13 @@ export function StepPane({
         <div className="border-t bg-card">
           <div className="p-4">
             <Tabs defaultValue="overview" className="w-full">
-              <TabsList className="grid w-full grid-cols-4">
+              <TabsList className={`grid w-full ${step.chatConfig?.enabled ? 'grid-cols-4' : 'grid-cols-3'}`}>
                 <TabsTrigger value="overview">Overview</TabsTrigger>
                 <TabsTrigger value="logs">Logs</TabsTrigger>
                 <TabsTrigger value="payload">Payload</TabsTrigger>
-                <TabsTrigger value="chat">Chat</TabsTrigger>
+                {step.chatConfig?.enabled && (
+                  <TabsTrigger value="chat">Chat</TabsTrigger>
+                )}
               </TabsList>
 
               {/* Overview Tab */}
@@ -249,13 +251,15 @@ export function StepPane({
                 />
               </TabsContent>
 
-              {/* Chat Tab */}
-              <TabsContent value="chat" className="mt-4">
-                <ChatInterface
-                  stepId={step.id}
-                  chatConfig={step.chatConfig}
-                />
-              </TabsContent>
+              {/* Chat Tab - Only render if enabled */}
+              {step.chatConfig?.enabled && (
+                <TabsContent value="chat" className="mt-4">
+                  <ChatInterface
+                    stepId={step.id}
+                    chatConfig={step.chatConfig}
+                  />
+                </TabsContent>
+              )}
             </Tabs>
 
             {/* Action Buttons */}
