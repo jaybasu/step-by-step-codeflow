@@ -38,10 +38,22 @@ export function SettingsDialog({ steps, onSaveSettings }: SettingsDialogProps) {
         id: step.id,
         name: step.name,
         payload: step.payload || {},
+        chatConfig: step.chatConfig || {
+          enabled: false,
+          systemPrompt: "",
+          model: "gpt-3.5-turbo",
+          temperature: 0.7
+        },
         substeps: step.substeps ? step.substeps.map(substep => ({
           id: substep.id,
           name: substep.name,
-          payload: substep.payload || {}
+          payload: substep.payload || {},
+          chatConfig: substep.chatConfig || {
+            enabled: false,
+            systemPrompt: "",
+            model: "gpt-3.5-turbo",
+            temperature: 0.7
+          }
         })) : []
       }));
       const newValue = JSON.stringify(stepsConfig, null, 2);
@@ -61,10 +73,22 @@ export function SettingsDialog({ steps, onSaveSettings }: SettingsDialogProps) {
         id: step.id,
         name: step.name,
         payload: step.payload || {},
+        chatConfig: step.chatConfig || {
+          enabled: false,
+          systemPrompt: "",
+          model: "gpt-3.5-turbo",
+          temperature: 0.7
+        },
         substeps: step.substeps ? step.substeps.map(substep => ({
           id: substep.id,
           name: substep.name,
-          payload: substep.payload || {}
+          payload: substep.payload || {},
+          chatConfig: substep.chatConfig || {
+            enabled: false,
+            systemPrompt: "",
+            model: "gpt-3.5-turbo",
+            temperature: 0.7
+          }
         })) : []
       }));
       setEditorValue(JSON.stringify(stepsConfig, null, 2));
@@ -104,6 +128,7 @@ export function SettingsDialog({ steps, onSaveSettings }: SettingsDialogProps) {
             ...existingStep,
             name: configStep.name,
             payload: configStep.payload || {},
+            chatConfig: configStep.chatConfig || existingStep.chatConfig,
             substeps: configStep.substeps ? configStep.substeps.map((substep: any) => ({
               id: substep.id,
               name: substep.name,
@@ -112,7 +137,13 @@ export function SettingsDialog({ steps, onSaveSettings }: SettingsDialogProps) {
               warnings: 0,
               errors: 0,
               logs: [`Waiting for ${substep.name.toLowerCase()}...`],
-              payload: substep.payload || {}
+              payload: substep.payload || {},
+              chatConfig: substep.chatConfig || {
+                enabled: false,
+                systemPrompt: "",
+                model: "gpt-3.5-turbo",
+                temperature: 0.7
+              }
             })) : []
           };
         }
@@ -218,8 +249,9 @@ export function SettingsDialog({ steps, onSaveSettings }: SettingsDialogProps) {
                 <ul className="list-disc list-inside space-y-1 text-xs text-muted-foreground">
                   <li>Each step must have an "id" and "name" property</li>
                   <li>Add "payload" object for step-specific configuration</li>
+                  <li>Add "chatConfig" object to enable/configure chat for each step</li>
                   <li>Add "substeps" array for nested sub-processes</li>
-                  <li>Substeps follow the same structure: id, name, and optional payload</li>
+                  <li>Substeps follow the same structure: id, name, payload, and chatConfig</li>
                   <li>Changes will update step names and configurations in the left panel</li>
                   <li>Runtime data (progress, status, logs) will be preserved</li>
                 </ul>
@@ -236,12 +268,21 @@ export function SettingsDialog({ steps, onSaveSettings }: SettingsDialogProps) {
       "inputPath": "/src",
       "fileTypes": [".js", ".ts"]
     },
+    "chatConfig": {
+      "enabled": true,
+      "systemPrompt": "You are an expert assistant for file extraction tasks.",
+      "model": "gpt-4",
+      "temperature": 0.3
+    },
     "substeps": [
       {
         "id": "scan",
         "name": "Directory Scan",
         "payload": {
           "recursive": true
+        },
+        "chatConfig": {
+          "enabled": false
         }
       }
     ]
@@ -255,6 +296,8 @@ export function SettingsDialog({ steps, onSaveSettings }: SettingsDialogProps) {
                 <ul className="list-disc list-inside space-y-1 text-xs text-muted-foreground">
                   <li>Use descriptive names for better clarity</li>
                   <li>Payloads can contain any configuration data</li>
+                  <li>Set chatConfig.enabled: true to enable chat for a step</li>
+                  <li>Customize systemPrompt for step-specific AI assistance</li>
                   <li>Substeps are optional but useful for complex processes</li>
                   <li>Validate JSON syntax before saving</li>
                 </ul>

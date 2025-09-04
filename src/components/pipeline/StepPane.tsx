@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { PayloadEditor } from "./PayloadEditor";
 import { LogsModal } from "./LogsModal";
+import { ChatInterface } from "./ChatInterface";
 import { cn } from "@/lib/utils";
 import { PipelineStepData } from "./DetailPane";
 
@@ -151,10 +152,11 @@ export function StepPane({
         <div className="border-t bg-card">
           <div className="p-4">
             <Tabs defaultValue="overview" className="w-full">
-              <TabsList className="grid w-full grid-cols-3">
+              <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="overview">Overview</TabsTrigger>
                 <TabsTrigger value="logs">Logs</TabsTrigger>
                 <TabsTrigger value="payload">Payload</TabsTrigger>
+                <TabsTrigger value="chat">Chat</TabsTrigger>
               </TabsList>
 
               {/* Overview Tab */}
@@ -244,6 +246,14 @@ export function StepPane({
                   stepId={step.id}
                   payload={step.payload}
                   onSave={onSavePayload}
+                />
+              </TabsContent>
+
+              {/* Chat Tab */}
+              <TabsContent value="chat" className="mt-4">
+                <ChatInterface
+                  stepId={step.id}
+                  chatConfig={step.chatConfig}
                 />
               </TabsContent>
             </Tabs>

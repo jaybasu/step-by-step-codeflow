@@ -15,6 +15,12 @@ export interface PipelineStepData {
   logs: string[];
   payload?: any;
   substeps?: PipelineStepData[];
+  chatConfig?: {
+    enabled: boolean;
+    systemPrompt?: string;
+    model?: string;
+    temperature?: number;
+  };
 }
 
 interface DetailPaneProps {
